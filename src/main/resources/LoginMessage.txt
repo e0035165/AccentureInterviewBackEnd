@@ -1,0 +1,8 @@
+Hello Mr.{},
+
+Your account has been successfully been created. Attached is the token to be used to activate your account.
+
+Token: {}
+
+Thanks,
+Mr.{}
