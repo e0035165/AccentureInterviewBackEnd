@@ -74,10 +74,11 @@ public class CustomJWTFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain) throws ServletException, IOException {
         response.setHeader("Access-Control-Allow-Origin", "*"); // Allow all origins
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
         response.setHeader("Access-Control-Allow-Credentials", "true");
 
         if(request.getRequestURI().contains("/v1/personalAccount/activation")) {
+            System.out.println(request.getHeader("Authorization"));
             String authToken = request.getHeader("Authorization").substring(7);
             Map<String,Object>credentials = getTokenDecrypt(authToken);
             if(credentials.get("username")!=null && SecurityContextHolder.getContext().getAuthentication() == null) {

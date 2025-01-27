@@ -21,7 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path="/v1/personalAccount")
-@CrossOrigin(origins = "http://localhost:5100")
+@CrossOrigin(origins = "http://localhost:5100", allowedHeaders = {"Authorization", "Content-Type"})
 public class LoggedInUserController {
 
     @Autowired
@@ -39,23 +39,14 @@ public class LoggedInUserController {
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-    @PostMapping(path="/login")
-    public ResponseEntity<String> login(@RequestBody AuthRequest authRequest) {
-        CustomUserDetails details = (CustomUserDetails) customUserDetailsService.loadUserByUsername(authRequest.username());
-        if(details==null) {
-            return ResponseEntity.badRequest().body("Invalid username or password");
-        }
-        if(details.isEnabled()) {
-            return ResponseEntity.ok("User successfully logged in");
-        } else {
-            return ResponseEntity.badRequest().body("User is not activated");
-        }
-    }
+
 
     @PostMapping(path = "/activation")
     public ResponseEntity<String> activation(@RequestBody Map<String,Object> responseBody) {
         CustomUserDetails details = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println(details.getUsername());
         details.setValid(true);
+        customUserDetailsService.editUser(details);
         return ResponseEntity.ok("Successfully activated. You may use your account credentials to login");
     }
 

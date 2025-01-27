@@ -40,6 +40,8 @@ mail:
     port: 993
 
 contacts: src/main/resources/Contacts.json
+login-message: src/main/resources/LoginMessage.txt
+front-end-link: http://localhost:5100/activation
 
 
 
