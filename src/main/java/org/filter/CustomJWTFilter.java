@@ -1,6 +1,8 @@
 package org.filter;
 
 import org.entities.CustomUserDetails;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.services.CustomUserDetailsService;
 import org.utilities.jwtService;
 import jakarta.servlet.FilterChain;
@@ -12,11 +14,14 @@ import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 //gunawan.ding@accenture.com
 
@@ -69,10 +74,12 @@ public class CustomJWTFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain) throws ServletException, IOException {
         response.setHeader("Access-Control-Allow-Origin", "*"); // Allow all origins
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
         response.setHeader("Access-Control-Allow-Credentials", "true");
 
-        if(request.getRequestURI().contains("/v1/personalAccount/activation")) {
+        if(request.getRequestURI().contains("/v1/personalAccount") ||
+                request.getRequestURI().contains("/v1/payment")) {
+            System.out.println(request.getHeader("Authorization"));
             String authToken = request.getHeader("Authorization").substring(7);
             Map<String,Object>credentials = getTokenDecrypt(authToken);
             if(credentials.get("username")!=null && SecurityContextHolder.getContext().getAuthentication() == null) {

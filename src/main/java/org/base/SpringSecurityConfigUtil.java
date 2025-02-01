@@ -9,6 +9,7 @@ import org.services.ROLEService;
 import org.utilities.jwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -18,8 +19,10 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 import java.text.ParseException;
+import java.time.Duration;
 import java.util.*;
 
 @Component
@@ -120,6 +123,15 @@ public class SpringSecurityConfigUtil {
         props.put("mail.imaps.host", mailImapsHost);
         props.put("mail.imaps.port", mailImapsPort);
         return props;
+    }
+
+
+    @Bean
+    public RestTemplate restTemplate() {
+        RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
+        return restTemplateBuilder.readTimeout(Duration.ofSeconds(30))
+                .connectTimeout(Duration.ofSeconds(30))
+                .build();
     }
 
 

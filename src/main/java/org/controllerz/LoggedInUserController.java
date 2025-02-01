@@ -10,11 +10,13 @@ import org.services.CustomUserDetailsService;
 import org.services.EmailService;
 import org.services.SubscriptionPlansService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -34,21 +36,18 @@ public class LoggedInUserController {
     ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
     private EmailService emailService;
+
+
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
-    @PostMapping(path="/login")
-    public ResponseEntity<String> login(@RequestBody AuthRequest authRequest) {
-        CustomUserDetails details = (CustomUserDetails) customUserDetailsService.loadUserByUsername(authRequest.username());
-        if(details==null) {
-            return ResponseEntity.badRequest().body("Invalid username or password");
-        }
-        if(details.isEnabled()) {
-            return ResponseEntity.ok("User successfully logged in");
-        } else {
-            return ResponseEntity.badRequest().body("User is not activated");
-        }
+    @GetMapping(path = "/getSubscriptions")
+    public ResponseEntity<List<SubscriptionPlans>> getAllSubscriptionPlans() {
+        List<SubscriptionPlans>getAllPlans = subscriptionPlansService.getAllSubscriptionPlans();
+        return new ResponseEntity<>(getAllPlans, HttpStatus.OK);
     }
+
+
 
     @PostMapping(path = "/activation")
     public ResponseEntity<String> activation(@RequestBody Map<String,Object> responseBody) {
@@ -56,6 +55,8 @@ public class LoggedInUserController {
         details.setValid(true);
         return ResponseEntity.ok("Successfully activated. You may use your account credentials to login");
     }
+
+
 
 
     @PutMapping(path = "/{username}/addToCart")
@@ -80,6 +81,7 @@ public class LoggedInUserController {
         }
         return ResponseEntity.status(204).body("Subscription successfully added");
     }
+
 
 
 

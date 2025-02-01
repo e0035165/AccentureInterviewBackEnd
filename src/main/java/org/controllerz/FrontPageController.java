@@ -1,5 +1,6 @@
 package org.controllerz;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.entities.Contacts;
 import org.entities.CustomUserDetails;
 import org.entities.ROLE;
@@ -39,12 +40,36 @@ public class FrontPageController {
     @Autowired
     private ContactsService contactsService;
 
+    @Autowired
+    private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    private jwtService jwtService;
+
 
 
     @GetMapping(path = "/contactUS")
     public ResponseEntity<List<Contacts>> getContacts() {
         List<Contacts> getContacts = contactsService.getAllContacts();
         return new ResponseEntity<>(getContacts, HttpStatus.OK);
+    }
+
+    @PostMapping(path="/login")
+    public ResponseEntity<JsonNode> login(@RequestBody AuthRequest authRequest) {
+        ObjectNode node = (new ObjectMapper()).createObjectNode();
+        CustomUserDetails details = (CustomUserDetails) customUserDetailsService.loadUserByUsername(authRequest.username());
+        if(details==null) {
+            node.put("message", "Invalid username or password");
+            return ResponseEntity.badRequest().body(node);
+        }
+        if(details.isEnabled()) {
+            String bearer = "Bearer "+jwtService.encrypt(authRequest);
+            node.put("bearer", bearer);
+            return ResponseEntity.ok(node);
+        } else {
+            node.put("message", "Disabled");
+            return ResponseEntity.badRequest().body(node);
+        }
     }
 
     @PostMapping(path = "/signup")
@@ -65,6 +90,10 @@ public class FrontPageController {
         node.put("token", tolken);
         return ResponseEntity.status(201).body(node);
     }
+
+
+
+
 
 
 
