@@ -1,8 +1,8 @@
-Hello Mr.{},
+Hello Mr.[name],
 
 Your account has been successfully been created. Attached is the token to be used to activate your account.
 
-Token: {}
+Token: [token]
 
 Thanks,
 Mr.{}

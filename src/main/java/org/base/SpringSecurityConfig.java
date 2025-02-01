@@ -20,7 +20,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-public class SpringSecurityConfig implements WebMvcConfigurer {
+public class SpringSecurityConfig {
 
     @Autowired
     private AuthenticationProvider authenticationProvider;
@@ -65,4 +65,6 @@ public class SpringSecurityConfig implements WebMvcConfigurer {
         http.headers(headers->headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
         return http.build();
     }
+
+
 }

@@ -39,34 +39,6 @@ public class CustomUserDetails implements UserDetails {
     }
 
 
-//    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-//    @JoinTable(
-//            name="archived_news",
-//            joinColumns = {@JoinColumn(name="user_id",referencedColumnName = "id"),@JoinColumn(name="username",referencedColumnName = "username")},
-//            inverseJoinColumns = {@JoinColumn(name="news_id",referencedColumnName = "id"),@JoinColumn(name="news_title",referencedColumnName = "title")}
-//    )
-//    public List<AllNews>allNews;
-//
-//
-//    public void setAllNews(List<AllNews> allNews) {
-//        this.allNews = allNews;
-//    }
-//
-//    public List<AllNews> getAllNews() {
-//        if(allNews == null)
-//            allNews = new ArrayList<>();
-//
-//        return allNews;
-//    }
-//
-//    public void addNews(List<AllNews> allNews) {
-//        if(this.allNews == null){
-//            this.allNews = new ArrayList<>();
-//        }
-//        this.allNews.addAll(allNews);
-//    }
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = true)
     private SubscriptionPlans purchasedSubscriptionPlans;
@@ -170,6 +142,12 @@ public class CustomUserDetails implements UserDetails {
     public void setValid(boolean valid) {
         isValid = valid;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+
 
 
 

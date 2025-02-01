@@ -39,4 +39,8 @@ public class CustomUserDetailsService implements UserDetailsService {
             customUserRepository.save(customUserDetails);
         }
     }
+
+    public void editUser(CustomUserDetails customUserDetails) {
+        customUserRepository.save(customUserDetails);
+    }
 }

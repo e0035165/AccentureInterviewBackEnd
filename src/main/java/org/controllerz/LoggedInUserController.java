@@ -21,7 +21,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path="/v1/personalAccount")
-@CrossOrigin(origins = "http://localhost:5100")
+@CrossOrigin(origins = "http://localhost:5100", allowedHeaders = {"Authorization", "Content-Type"})
 public class LoggedInUserController {
 
     @Autowired
@@ -36,8 +36,6 @@ public class LoggedInUserController {
     ObjectMapper objectMapper = new ObjectMapper();
     @Autowired
     private EmailService emailService;
-
-
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
 

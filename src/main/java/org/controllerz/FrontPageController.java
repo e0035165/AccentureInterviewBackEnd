@@ -19,7 +19,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/v1/frontPage")
@@ -46,6 +48,8 @@ public class FrontPageController {
     @Autowired
     private jwtService jwtService;
 
+    @Autowired
+    private EmailService emailService;
 
 
     @GetMapping(path = "/contactUS")
@@ -85,15 +89,12 @@ public class FrontPageController {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, null,
                 userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);
-        String tolken = e_service.encrypt(authRequest);
+        String tolken = "Bearer "+e_service.encrypt(authRequest);
         ObjectNode node = JsonNodeFactory.instance.objectNode();
         node.put("token", tolken);
+        emailService.sendLoginMessage(userDetails, tolken);
         return ResponseEntity.status(201).body(node);
     }
-
-
-
-
 
 
 
