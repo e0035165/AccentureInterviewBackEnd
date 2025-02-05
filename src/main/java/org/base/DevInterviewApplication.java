@@ -51,6 +51,9 @@ public class DevInterviewApplication implements CommandLineRunner {
     @Value("${contacts}")
     public String filepath;
 
+
+
+
     private ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
 
     public List<Contacts>getAllContacts() throws IOException {
@@ -84,7 +87,7 @@ public class DevInterviewApplication implements CommandLineRunner {
         List.of("ROLE_USER","ROLE_ADMIN","ROLE_MANAGER").stream()
                 .map(role->new ROLE(role)).forEach(role->roleService.add(role));
 
-        Map.of("ONE_MONTH",12.99f,"SIX_MONTH",10.99f,"ONE_YEAR",5.99f)
+        Map.of("ONE_MONTH",12.99f,"SIX_MONTH",10.99f,"ONE_YEAR",5.99f, "ONE_WEEK",8.99f)
                 .entrySet().stream().map(entry->new SubscriptionPlans(entry.getKey(), entry.getValue()))
                 .forEach(subscriptionPlans -> subscriptionPlansService.addSubscriptionPlan(subscriptionPlans));
 

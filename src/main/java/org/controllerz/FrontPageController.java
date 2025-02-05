@@ -9,7 +9,9 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.services.ContactsService;
 import org.services.CustomUserDetailsService;
+import org.services.EmailService;
 import org.services.ROLEService;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.utilities.jwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -58,6 +60,16 @@ public class FrontPageController {
         return new ResponseEntity<>(getContacts, HttpStatus.OK);
     }
 
+    @GetMapping(path="verifyUser")
+    public ResponseEntity<Boolean> verifyUser(@RequestParam(name = "user") String username) {
+        CustomUserDetails userDetails = (CustomUserDetails) userDetailsService.loadUserByUsername(username);
+        if(userDetails!=null) {
+            return new ResponseEntity<>(true, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
+        }
+    }
+
     @PostMapping(path="/login")
     public ResponseEntity<JsonNode> login(@RequestBody AuthRequest authRequest) {
         ObjectNode node = (new ObjectMapper()).createObjectNode();
@@ -65,19 +77,29 @@ public class FrontPageController {
         if(details==null) {
             node.put("message", "Invalid username or password");
             return ResponseEntity.badRequest().body(node);
-        }
-        if(details.isEnabled()) {
-            String bearer = "Bearer "+jwtService.encrypt(authRequest);
-            node.put("bearer", bearer);
-            return ResponseEntity.ok(node);
+        } else if(passwordEncoder.matches(authRequest.password(), details.getPassword())) {
+            if(details.isEnabled()) {
+                String bearer = "Bearer "+jwtService.encrypt(authRequest);
+                node.put("bearer", bearer);
+                return ResponseEntity.ok(node);
+            } else {
+                node.put("message", "Disabled");
+                return ResponseEntity.badRequest().body(node);
+            }
+
         } else {
-            node.put("message", "Disabled");
-            return ResponseEntity.badRequest().body(node);
+            node.put("message", "Invalid username or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(node);
         }
     }
 
     @PostMapping(path = "/signup")
-    public ResponseEntity<JsonNode> Signup(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<JsonNode> Signup(@RequestBody AuthRequest authRequest) throws IOException {
+        CustomUserDetails user = (CustomUserDetails) customUserDetailsService.loadUserByUsername(authRequest.username());
+        if(user!=null) {
+            return ResponseEntity.badRequest().body((new ObjectMapper()).createObjectNode()
+            .put("username", user.getUsername()+ " already exists"));
+        }
         CustomUserDetails userDetails = new CustomUserDetails();
         userDetails.setUsername(authRequest.username());
         userDetails.setPassword(passwordEncoder.encode(authRequest.password()));

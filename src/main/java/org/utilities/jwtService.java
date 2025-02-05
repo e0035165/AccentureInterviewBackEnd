@@ -29,7 +29,7 @@ public class jwtService {
     public String encrypt(Map<String,Object> payload) {
         Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
         String jwt = Jwts.builder().addClaims(payload)
-                .setExpiration(Date.from(Instant.now().plusSeconds(60*60*24*365)))
+                .setExpiration(Date.from(Instant.now().plusSeconds(60*60*24)))
                 .signWith(key,SignatureAlgorithm.HS256).compact();
         return jwt;
     }

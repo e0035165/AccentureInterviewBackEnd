@@ -5,6 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Entity
@@ -16,69 +21,62 @@ public class AllNews {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "Headlines")
-    private String title;
+    private byte[] image;
 
-    @Column(name="Type")
-    private String type;
+    @Column(name="subheader")
+    private String subheader;
 
-    @Column(name="News_Document")
-    private String document;
+    @Column(name="news")
+    private String news_path;
 
-//    @ManyToMany(mappedBy = "allNews")
-//    private List<CustomUserDetails> allUsers;
-
-    public AllNews(String title, String type, String document) {
-        this.title = title;
-        this.type = type;
-        this.document = document;
-    }
-
-    public AllNews() {
-
+    public void setId(long id) {
+        this.id = id;
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public String getSubheader() {
+        return subheader;
     }
 
-    public String getTitle() {
-        return title;
+    public void setSubheader(String subheader) {
+        this.subheader = subheader;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getNews_path() {
+        return news_path;
     }
 
-    public String getType() {
-        return type;
+    public void setNews_path(String news_path) {
+        this.news_path = news_path;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public AllNews() {
+
     }
 
-    public String getDocument() {
-        return document;
-    }
-    public void setDocument(String document) {
-        this.document = document;
+    public AllNews(byte[] image, String subheader, String news_path) {
+        this.image = image;
+        this.subheader = subheader;
+        this.news_path = news_path;
     }
 
-//    public List<CustomUserDetails> getAllUsers() {
-//        return allUsers;
-//    }
-//    public void setAllUsers(List<CustomUserDetails> allUsers) {
-//        this.allUsers = allUsers;
-//    }
-//
-//    public void addAllUsers(List<CustomUserDetails> allUsers) {
-//        this.allUsers.addAll(allUsers);
-//    }
+
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(File file) throws IOException {
+        BufferedImage image = ImageIO.read(file);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, "jpg", baos);
+        this.image = baos.toByteArray();
+    }
+
+
 
 
 

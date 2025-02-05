@@ -91,6 +91,8 @@ public class CustomJWTFilter extends OncePerRequestFilter {
                     );
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    System.out.println("Invalid credentials");
                 }
             }
 

@@ -1,0 +1,27 @@
+SINGAPORE: Singapore said on Saturday (Feb 1) that it expects US companies to adhere to both US and Singapore laws, in response to reports that intermediaries in Singapore were involved in the illegal movement of Nvidia chips to China.
+
+Singapore's Ministry of Trade and Industry (MTI) repeated Nvidia's recent quarterly statement and stated the country's position as an international business hub.
+
+"Major US and European companies have significant operations here," said MTI.
+
+"Nvidia has also stated that there is no reason to believe that DeepSeek obtained any export-controlled products from Singapore."
+
+The ministry said it expects US companies to comply with US export controls and Singapore's laws, adding that Singapore's customs and law enforcement agencies would continue to work closely with their US counterparts.
+
+"We have always upheld the rule of law, and acted decisively and firmly against individuals and companies that flout the rules," said MTI.
+
+The US Commerce Department was said to have been looking into the issue, following reports that DeepSeek - the Chinese company whose AI model's performance rocked the tech world - had been using sophisticated chips that are not allowed to be shipped to China.
+
+In a letter to National Security Adviser Mike Waltz, US lawmakers on Wednesday called for a review on strengthening controls on shipments through third countries that "pose a high risk of diversion".
+
+
+"Countries like Singapore should be subject to strict licensing requirements absent a willingness to crack down on PRC transshipment through their territory," the letter read.
+
+SECOND-BIGGEST BUYER OF NVIDIA CHIPS
+Nvidia's recent quarterly statement stated that Singapore accounts for about 22 per cent of its revenue, making it the second-biggest buyer of its chips after the US.
+
+The company also said that "most shipments associated with Singapore revenue were to locations other than Singapore, and shipments to Singapore were insignificant".
+
+Nvidia told the website Investing.com earlier in the week that the revenue from Singapore was not an indication of any diversion to China.
+
+"Our public filings report 'bill to' not 'ship to' locations of our customers. Many of our customers have business entities in Singapore and use those entities for products destined for the US and the West," the company said.

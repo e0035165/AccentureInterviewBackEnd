@@ -30,14 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 
     public void addUser(CustomUserDetails customUserDetails) {
-        Optional<CustomUserDetails> optional = customUserRepository.findAll().stream()
-                .filter(u -> u.getUsername().equals(customUserDetails.getUsername())).findFirst();
-        if(!optional.isPresent()) {
-            customUserRepository.save(customUserDetails);
-        } else {
-            customUserRepository.delete(optional.get());
-            customUserRepository.save(customUserDetails);
-        }
+        customUserRepository.save(customUserDetails);
     }
 
     public void editUser(CustomUserDetails customUserDetails) {

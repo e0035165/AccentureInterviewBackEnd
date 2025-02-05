@@ -27,11 +27,11 @@ public class AllNewsService {
     }
 
     public void saveNews(AllNews allNews) {
-        if(getOneNews(allNews.getId()) != null)
-            allNewsRepository.deleteById(allNews.getId());
 
         allNewsRepository.save(allNews);
     }
+
+
 
 
 

@@ -50,7 +50,9 @@ public class LoggedInUserController {
     @PostMapping(path = "/activation")
     public ResponseEntity<String> activation(@RequestBody Map<String,Object> responseBody) {
         CustomUserDetails details = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         details.setValid(true);
+        customUserDetailsService.addUser(details);
         return ResponseEntity.ok("Successfully activated. You may use your account credentials to login");
     }
 
